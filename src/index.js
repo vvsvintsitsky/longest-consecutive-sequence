@@ -1,4 +1,9 @@
 module.exports = function longestConsecutiveLength(array) {
+
+  if(array.length == 0) {
+    return 0;
+  }
+
   var insertNode = function(node, value) {
     if(value <= node.v) {
       if(node.l == null) {
@@ -18,16 +23,14 @@ module.exports = function longestConsecutiveLength(array) {
   var tree = {p : null, l : null, r : null, v : null};
   //array = [100,4,200,1,3,2];
   tree.v = array[0];
-  var prevValue;
-  var consecutiveLength = 0;
-  var info = {prev: null, currentConsLength : 0, maxConsLength : 0};
+  var info = {prev: null, currentConsLength : 1, maxConsLength : 1};
   for(var i = 1; i < array.length; i++) {
     insertNode(tree, array[i]);
   }
 
-  var countConsecutiveLength = function(node, info) {
+  var countMaxConsecutiveLength = function(node, info) {
     if(node.l != null) {
-      countConsecutiveLength(node.l, info);
+      countMaxConsecutiveLength(node.l, info);
     }
     
     if((node.v - 1) !== info.prev) {
@@ -41,12 +44,13 @@ module.exports = function longestConsecutiveLength(array) {
     info.prev = node.v;
     
     if(node.r != null) {
-      countConsecutiveLength(node.r, info);
+      countMaxConsecutiveLength(node.r, info);
     }
   }
 
-  countConsecutiveLength(tree, info);
-  console.log(info.maxConsLength);
+  countMaxConsecutiveLength(tree, info);
+  return info.maxConsLength;
+  //console.log(info.maxConsLength);
 
   /*var sortedArray = [];
   var fillArrayFromTree = function(node, arrayToFill) {
