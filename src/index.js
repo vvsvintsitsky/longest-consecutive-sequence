@@ -24,4 +24,19 @@ module.exports = function longestConsecutiveLength(array) {
   for(var i = 1; i < array.length; i++) {
     insertNode(tree, array[i]);
   }
+
+  var sortedArray = [];
+  var fillArrayFromTree = function(node, arrayToFill) {
+    if(node.l != null) {
+      fillArrayFromTree(node.l, arrayToFill);
+    }
+    arrayToFill.push(node.v);
+    if(node.r != null) {
+      fillArrayFromTree(node.r, arrayToFill);
+    }
+  }
+
+  fillArrayFromTree(tree, sortedArray);
+
+  console.log(sortedArray);
 }
